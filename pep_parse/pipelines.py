@@ -26,7 +26,7 @@ class PepParsePipeline:
 
     def close_spider(self, spider):
         with open(self.results_dir / FILENAME.format(
-                    time=datetime.now().strftime(DATETIME_FORMAT)),
+                  time=datetime.now().strftime(DATETIME_FORMAT)),
                   mode='w', encoding='utf-8', newline='') as file:
             writer = csv.writer(file)
             writer.writerow(['Статус', 'Количество'])
