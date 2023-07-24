@@ -30,8 +30,4 @@ class PepParsePipeline:
                   mode='w', encoding='utf-8', newline='') as file:
             writer = csv.writer(file)
             writer.writerow(['Статус', 'Количество'])
-            total = 0
-            for status, count in self.status_count.items():
-                writer.writerow([status, count])
-                total += count
-            writer.writerow(['Total', total])
+            writer.writerow(['Total', sum(self.results.values())])
