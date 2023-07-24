@@ -23,7 +23,7 @@ class PepParsePipeline:
         return item
 
     def close_spider(self, spider):
-        with open(self.results_dir/FILENAME,
+        with open(self.results_dir / FILENAME,
                   mode='w', encoding='utf-8', newline='') as file:
             writer = csv.writer(file)
             writer.writerow(['Статус', 'Количество'])
