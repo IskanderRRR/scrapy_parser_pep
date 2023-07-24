@@ -1,10 +1,12 @@
 import csv
 from collections import defaultdict
+from datetime import datetime
 
 from scrapy.exceptions import DropItem
 
 from pep_parse.settings import BASE_DIR, RESULTS_DIR
 
+DATETIME_FORMAT = '%Y-%m-%d_%H-%M-%S'
 FILENAME = 'status_summary_{time}.csv'
 
 
@@ -23,7 +25,8 @@ class PepParsePipeline:
         return item
 
     def close_spider(self, spider):
-        with open(self.results_dir / FILENAME,
+        with open(self.results_dir / FILENAME.format(
+                    time=datetime.now().strftime(DATETIME_FORMAT)),
                   mode='w', encoding='utf-8', newline='') as file:
             writer = csv.writer(file)
             writer.writerow(['Статус', 'Количество'])
