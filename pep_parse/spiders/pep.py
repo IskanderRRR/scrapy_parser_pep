@@ -13,12 +13,13 @@ class PepSpider(scrapy.Spider):
             yield response.follow(pep_link, self.parse_pep)
 
     def parse_pep(self, response):
-        number, name = re.search(
-            r'PEP (?P<number>\d+) – (?P<name>.*)',
-            ''.join(response.css('h1.page-title ::text').getall())
-        ).groups()
+        pep_title = response.xpath('//h1[@class="page-title"]/text()').get()
+        number = int(
+            re.search(r'^PEP\s(?P<number>\d+)\s–\s', pep_title).group('number')
+        )
         yield PepParseItem({
             'number': number,
-            'name': name,
-            'status': response.css('dt:contains("Status") + dd::text').get(),
+            'name': response.css('dt:contains("Author") + dd::text').get(),
+            'status': response.css(
+                'dt:contains("Status") + dd abbr::text').get(),
         })
